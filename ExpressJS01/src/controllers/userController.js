@@ -1,4 +1,4 @@
-const { createUserService, loginService, getUserService } = require("../services/userService");
+const { createUserService, loginService, getUserService, searchUsersService } = require("../services/userService");
 
 const createUser = async (req, res) => {
     const { name, email, password, address, phone, age, gender, province } = req.body;
@@ -23,6 +23,25 @@ const getAccount = async (req, res) => {
     return res.status(200).json(req.user);
 };
 
+const searchUsers = async (req, res) => {
+    console.log(">>> Query: ", req.query);
+    const { q, gender, age_gte, age_lte, page, pageSize } = req.query;
+    const filters = { gender, age_gte, age_lte };
+    console.log(">>> Filters: ", filters);
+    const data = await searchUsersService({
+        query: q,
+        filters,
+        page: parseInt(page) || 1,
+        pageSize: parseInt(pageSize) || 10
+    });
+
+    return res.status(200).json(data);
+};
+
 module.exports = {
-    createUser, handleLogin, getUser, getAccount
+    createUser,
+    handleLogin,
+    getUser,
+    getAccount,
+    searchUsers // Export hàm mới
 };

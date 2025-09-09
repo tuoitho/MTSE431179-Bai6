@@ -16,3 +16,9 @@ export const getAccountApi = () => {
 export const getUsersApi = (page = 1, pageSize = 10) => {
     return axios.get(`/v1/api/user?page=${page}&pageSize=${pageSize}`);
 };
+
+export const searchUsersApi = (params) => {
+    // Chuyển object params thành query string
+    const queryString = new URLSearchParams(params).toString();
+    return axios.get(`/v1/api/user/search?${queryString}`);
+};
