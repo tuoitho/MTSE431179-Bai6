@@ -1,7 +1,8 @@
 import axios from './axios.customize';
 
-export const createUserApi = (name, email, password) => {
-    return axios.post("/v1/api/register", { name, email, password });
+export const createUserApi = (name, email, password, address, phone, age, gender, province) => {
+    const data = { name, email, password, address, phone, age, gender, province };
+    return axios.post("/v1/api/register", data);
 };
 
 export const loginApi = (email, password) => {

@@ -1,15 +1,17 @@
-import { Form, Input, Button, notification, Card, Row, Col } from 'antd';
-import { UserOutlined, LockOutlined, MailOutlined } from '@ant-design/icons';
+import { Form, Input, Button, notification, Card, Row, Col, Select, InputNumber } from 'antd';
+import { UserOutlined, LockOutlined, MailOutlined, PhoneOutlined, HomeOutlined } from '@ant-design/icons';
 import { createUserApi } from '../utils/api';
 import { useNavigate, Link } from 'react-router-dom';
+
+const { Option } = Select;
 
 const RegisterPage = () => {
     const navigate = useNavigate();
 
     const onFinish = async (values) => {
-        const { name, email, password } = values;
+        const { name, email, password, address, phone, age, gender, province } = values;
         try {
-            const res = await createUserApi(name, email, password);
+            const res = await createUserApi(name, email, password, address, phone, age, gender, province);
             console.log('Register response:', res);
             if (res.data && res.data._id) {
                 notification.success({
@@ -25,13 +27,14 @@ const RegisterPage = () => {
             } else {
                 notification.error({
                     message: 'Đăng ký thất bại',
-                    description: 'Có lỗi xảy ra, vui lòng thử lại sau',
+                    description: res.message || 'Có lỗi xảy ra, vui lòng thử lại sau',
                 });
             }
         } catch (error) {
             console.error('Register error:', error);
             notification.error({
                 message: 'Có lỗi xảy ra khi đăng ký',
+                description: error.message || 'Vui lòng kiểm tra lại thông tin'
             });
         }
     };
@@ -93,6 +96,45 @@ const RegisterPage = () => {
                             ]}
                         >
                             <Input.Password prefix={<LockOutlined />} placeholder="Xác nhận mật khẩu" />
+                        </Form.Item>
+
+                        <Form.Item
+                            label="Địa chỉ"
+                            name="address"
+                        >
+                            <Input prefix={<HomeOutlined />} placeholder="Địa chỉ" />
+                        </Form.Item>
+
+                        <Form.Item
+                            label="Số điện thoại"
+                            name="phone"
+                        >
+                            <Input prefix={<PhoneOutlined />} placeholder="Số điện thoại" />
+                        </Form.Item>
+
+                        <Form.Item
+                            label="Tuổi"
+                            name="age"
+                        >
+                            <InputNumber min={1} style={{ width: '100%' }} placeholder="Tuổi" />
+                        </Form.Item>
+
+                        <Form.Item
+                            label="Giới tính"
+                            name="gender"
+                        >
+                            <Select placeholder="Chọn giới tính">
+                                <Option value="Male">Nam</Option>
+                                <Option value="Female">Nữ</Option>
+                                <Option value="Other">Khác</Option>
+                            </Select>
+                        </Form.Item>
+
+                        <Form.Item
+                            label="Tỉnh/Thành phố"
+                            name="province"
+                        >
+                            <Input placeholder="Tỉnh/Thành phố" />
                         </Form.Item>
 
                         <Form.Item>

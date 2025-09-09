@@ -4,8 +4,9 @@ const bcrypt = require('bcrypt');
 const jwt = require("jsonwebtoken");
 const saltRounds = 10;
 
-const createUserService = async (name, email, password) => {
+const createUserService = async (userData) => {
     try {
+        const { name, email, password, address, phone, age, gender, province } = userData;
         const existingUser = await User.findOne({ email });
         if (existingUser) {
             console.log(`>>> user exist, chọn 1 email khác: ${email}`);
@@ -14,10 +15,15 @@ const createUserService = async (name, email, password) => {
 
         const hashPassword = await bcrypt.hash(password, saltRounds);
         let result = await User.create({
-            name: name,
-            email: email,
+            name,
+            email,
             password: hashPassword,
-            role: "User"
+            role: "User",
+            address,
+            phone,
+            age,
+            gender,
+            province
         });
         return result;
     } catch (error) {

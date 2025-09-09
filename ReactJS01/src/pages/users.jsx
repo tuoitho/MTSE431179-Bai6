@@ -87,6 +87,31 @@ const UserPage = () => {
             dataIndex: 'role',
             key: 'role',
         },
+        {
+            title: 'Địa chỉ',
+            dataIndex: 'address',
+            key: 'address',
+        },
+        {
+            title: 'Số điện thoại',
+            dataIndex: 'phone',
+            key: 'phone',
+        },
+        {
+            title: 'Tuổi',
+            dataIndex: 'age',
+            key: 'age',
+        },
+        {
+            title: 'Giới tính',
+            dataIndex: 'gender',
+            key: 'gender',
+        },
+        {
+            title: 'Tỉnh',
+            dataIndex: 'province',
+            key: 'province',
+        },
     ];
 
     return (
